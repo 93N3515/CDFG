@@ -1,31 +1,28 @@
 ﻿using System;
-using System.IO;
+using Alphaleonis.Win32.Filesystem;
 
 namespace FileGrabber
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            // Получаем путь из аргументов командной строки
-            string path = args[0];
+            Console.WriteLine("Write path for logs: ");
+            string path = Console.ReadLine();
 
-            // Получаем список всех каталогов в пути
-            string[] directories = Directory.GetDirectories(path);
+            string[] directories = Directory.GetDirectories(Path.GetFullPath(path));
 
             foreach (string directory in directories)
             {
-                // Соединяем имя каталога с "FileGrabber"
                 string targetDirectory = Path.Combine(directory, "FileGrabber");
 
-                // Проверяем, существует ли такой каталог
                 if (Directory.Exists(targetDirectory))
                 {
-                    // Удаляем каталог со всеми файлами в нем
-                    Directory.Delete(targetDirectory, true);
+                    Directory.Delete(targetDirectory, true, true);
                     Console.WriteLine("Folder " + directory + " Deleted.");
                 }
             }
         }
+
     }
 }
